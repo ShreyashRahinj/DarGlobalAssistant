@@ -31,8 +31,16 @@ ENV OMP_NUM_THREADS=1 \
 RUN python -c "from pathlib import Path; from app.rag import Retriever; r = Retriever(index_dir=Path('data/index')); n = r.build_from_jsonl(Path('data/pages.jsonl')); assert n > 0, 'index build produced no chunks'"
 
 RUN groupadd -r appuser -g 1000 && useradd -r -u 1000 -g appuser appuser && \
-    chown -R appuser:appuser /app /tmp/fastembed_cache
+    mkdir -p /home/appuser && \
+    chown -R appuser:appuser /app /tmp/fastembed_cache /home/appuser
 USER appuser
+
+# Render runs containers with HOME=/home/appuser; without an owned home dir,
+# huggingface_hub/hf_xet fail to write cache metadata and fastembed re-downloads
+# the model at startup. Pin the caches so runtime reuses the baked model.
+ENV HOME=/home/appuser \
+    HF_HOME=/app/.cache/huggingface \
+    FASTEMBED_CACHE_PATH=/tmp/fastembed_cache
 
 EXPOSE 7860
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
