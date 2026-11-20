@@ -1,0 +1,20 @@
+{"question":"What projects does DarGlobal develop?","expected_source":"darglobal","type":"factual"}
+{"question":"Where is DarGlobal based?","expected_source":"darglobal","type":"factual"}
+{"question":"What is Wasalt?","expected_source":"wasalt","type":"factual"}
+{"question":"How do DarGlobal and Wasalt differ?","expected_source":"both","type":"comparison"}
+{"question":"Does DarGlobal operate in Saudi Arabia?","expected_source":"darglobal","type":"factual"}
+{"question":"What services does Wasalt provide?","expected_source":"wasalt","type":"factual"}
+{"question":"Who founded DarGlobal?","expected_source":"darglobal","type":"factual"}
+{"question":"Is Wasalt a real estate developer?","expected_source":"wasalt","type":"factual"}
+{"question":"What is DarGlobal's mission or vision?","expected_source":"darglobal","type":"factual"}
+{"question":"How does Wasalt help property buyers?","expected_source":"wasalt","type":"factual"}
+{"question":"Does DarGlobal have residential projects?","expected_source":"darglobal","type":"factual"}
+{"question":"What is the contact email for DarGlobal careers?","expected_source":"darglobal","type":"factual"}
+{"question":"Is Wasalt based in Saudi Arabia?","expected_source":"wasalt","type":"factual"}
+{"question":"Compare DarGlobal and Wasalt business models","expected_source":"both","type":"comparison"}
+{"question":"What awards has DarGlobal won?","expected_source":"darglobal","type":"factual"}
+{"question":"Does Wasalt offer mortgage services?","expected_source":"wasalt","type":"factual"}
+{"question":"What cities does DarGlobal build in?","expected_source":"darglobal","type":"factual"}
+{"question":"Is Wasalt a proptech company?","expected_source":"wasalt","type":"factual"}
+{"question":"What property types are listed for rent on Wasalt?","expected_source":"wasalt","type":"factual"}
+{"question":"What type of properties does DarGlobal develop?","expected_source":"darglobal","type":"factual"}

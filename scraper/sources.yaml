@@ -1,0 +1,38 @@
+source_filter:
+  darglobal:
+    name: DarGlobal
+    base_url: https://www.darglobal.co.uk
+    sitemap: https://darglobal.co.uk/sitemap.xml
+    max_pages: 150
+  wasalt:
+    name: Wasalt
+    # Cloudflare-protected: the plain HTTP scraper gets a JS challenge, not HTML.
+    # Use scraper/wasalt_browser.py (Playwright) for this source.
+    enabled: false
+    base_url: https://wasalt.sa
+    sitemap: https://cdn.wasalt.sa/sitemap/static_sitemap_en_sa.xml.gz
+    max_pages: 30
+
+crawl:
+  max_depth: 2
+  delay_sec: 1.5
+  timeout_sec: 20
+  max_retries: 3
+  same_domain_only: true
+  skip_patterns:
+    - /wp-admin/
+    - /cart/
+    - /checkout/
+    - /my-account/
+    - /login/
+    - /wp-login/
+    - .pdf
+    - .jpg
+    - .png
+    - .jpeg
+    - .zip
+    - .docx
+    - /search
+
+output:
+  pages_jsonl: data/pages.jsonl
