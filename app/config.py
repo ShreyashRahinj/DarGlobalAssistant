@@ -34,6 +34,10 @@ class Settings:
         # Cache
         self.CACHE_MAX_SIZE = int(os.getenv("CACHE_MAX_SIZE", "512"))
 
+        # ONNX intra-op threads for the local embedding model. One thread keeps
+        # RSS low on free 512 MB instances; raise it on bigger machines.
+        self.EMBED_THREADS = int(os.getenv("EMBED_THREADS", "1"))
+
         # OpenRouter embeddings (optional alternative to the local model).
         self.EMBED_BATCH_SIZE = int(os.getenv("EMBED_BATCH_SIZE", "32"))
         self.EMBED_MAX_RETRIES = int(os.getenv("EMBED_MAX_RETRIES", "3"))
@@ -65,6 +69,7 @@ SIMILARITY_THRESHOLD = settings.SIMILARITY_THRESHOLD
 FOLLOW_UP_TURNS = settings.FOLLOW_UP_TURNS
 REASONING_MAX_TOKENS = settings.REASONING_MAX_TOKENS
 CACHE_MAX_SIZE = settings.CACHE_MAX_SIZE
+EMBED_THREADS = settings.EMBED_THREADS
 REQUEST_DELAY_SEC = settings.REQUEST_DELAY_SEC
 USER_AGENT = settings.USER_AGENT
 OPENROUTER_API_KEY = settings.OPENROUTER_API_KEY

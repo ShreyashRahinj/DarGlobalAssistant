@@ -24,16 +24,20 @@ class EmbeddingError(RuntimeError):
 class LocalEmbedder:
     """Wraps fastembed (ONNX, offline, no API key)."""
 
-    def __init__(self, model_name: str):
+    def __init__(self, model_name: str, threads: int | None = None):
         self.model_name = model_name
+        self.threads = threads
         self._model = None
 
     def _lazy_model(self):
         if self._model is None:
             from fastembed import TextEmbedding
 
+            from app.config import settings
+
+            threads = self.threads if self.threads is not None else settings.EMBED_THREADS
             logger.info("Loading local embedding model %s", self.model_name)
-            self._model = TextEmbedding(model_name=self.model_name)
+            self._model = TextEmbedding(model_name=self.model_name, threads=threads)
         return self._model
 
     def embed(

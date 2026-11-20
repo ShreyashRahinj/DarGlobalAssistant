@@ -166,7 +166,7 @@ Hugging Face now requires a paid plan (PRO, $9/mo) to create **Docker or Gradio*
 5. Create the service. First build ~10–15 min; logs end with `Loaded index with N chunks`.
 6. Live URL: `https://<service-name>.onrender.com`. Try `/health`, then ask a question.
 
-Free-tier behavior: 512 MB RAM / 0.1 CPU; the service sleeps after ~15 min without traffic (first visit afterwards takes ~30–60 s); disk is ephemeral, but the retrieval index is baked into the image during the build, so waking never re-embeds the corpus.
+Free-tier behavior: 512 MB RAM / 0.1 CPU; the service sleeps after ~15 min without traffic (first visit afterwards takes ~30–60 s); disk is ephemeral, but the retrieval index is baked into the image during the build, so waking never re-embeds the corpus. Measured locally: ~70 MB idle, ~265 MB after the first query (the embedding model loads lazily), so it fits the free instance with headroom.
 
 **Alternative:** the same Dockerfile works as a Hugging Face Docker Space on a PRO account (16 GB RAM, no sleep), if you prefer that over Render.
 

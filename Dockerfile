@@ -14,14 +14,24 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # Pre-download the embedding model during build so startup is fast and offline.
-RUN python -c "from fastembed import TextEmbedding; TextEmbedding(model_name='BAAI/bge-small-en-v1.5')"
+RUN python -c "from fastembed import TextEmbedding; TextEmbedding(model_name='BAAI/bge-small-en-v1.5')" && \
+    chmod -R a+rX /tmp/fastembed_cache
 
 COPY app ./app
 COPY scraper ./scraper
 COPY data ./data
 
+# Small free-tier instances: keep ONNX from spawning a thread per host core
+# (spinning threads inflated startup to >1 GB RAM and ~17x CPU).
+ENV OMP_NUM_THREADS=1 \
+    TOKENIZERS_PARALLELISM=false
+
+# Bake the retrieval index into the image so a restart/cold start loads it
+# instead of re-embedding 303 chunks on a fractional CPU.
+RUN python -c "from pathlib import Path; from app.rag import Retriever; r = Retriever(index_dir=Path('data/index')); n = r.build_from_jsonl(Path('data/pages.jsonl')); assert n > 0, 'index build produced no chunks'"
+
 RUN groupadd -r appuser -g 1000 && useradd -r -u 1000 -g appuser appuser && \
-    chown -R appuser:appuser /app
+    chown -R appuser:appuser /app /tmp/fastembed_cache
 USER appuser
 
 EXPOSE 7860

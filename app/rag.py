@@ -199,10 +199,10 @@ class Retriever:
         source = meta.get("source_path")
         if source and Path(source).exists():
             stat = Path(source).stat()
-            if (
-                stat.st_mtime_ns != meta.get("source_mtime_ns")
-                or stat.st_size != meta.get("source_size")
-            ):
+            # Docker layer export truncates mtimes to whole seconds, so compare
+            # at second precision; the size check still catches content changes.
+            mtime_delta = abs(stat.st_mtime_ns - int(meta.get("source_mtime_ns") or 0))
+            if mtime_delta >= 1_000_000_000 or stat.st_size != meta.get("source_size"):
                 logger.info("Index at %s is stale relative to %s", self.index_dir, source)
                 return False
 
